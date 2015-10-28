@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+$(document).ready(function(){
+    $("#addTo").click(function(){
+        var myobj = {Name:$("#Name").val(),Comment:$("#Comment").val()};
+        jobj = JSON.stringify(myobj);
+        $("#json").text(jobj);
+        var url = "comment";
+        $.post(url,jobj,function(data,textStatus) {
+        	$("#done").append(textStatus);
+        });
+    });
+$("#allCom").click(function(){
+	console.log("Got into click event for get");
+ var url = "comment";
+      $.getJSON(url,function(data) {
+        var everything;
+        everything = "<ul>";
+        $.each(data, function(i,item) {
+          everything += "<li> Name: "+data[i].Name+" Comment: "+data[i].Comment;
+        });
+        everything += "</ul>";
+        $("#currentCom").html(everything);
+      });
+  });
+});
+</script>
+</head>
+<body>
+
+<form id="commentForm" action="">
+  Name: <input type="text" id="Name" value="Mickey"><br>
+  comment: <input type="text" id="Comment" value="Hello"><br>
+</form>
+
+<button id="addTo">Add Comment</button>
+<button id="allCom">Show All Comments</button>
+
+<div id="json"></div>
+<div id="currentCom"></div>
+<div id="done"></div>
+
+</body>
+</html>
